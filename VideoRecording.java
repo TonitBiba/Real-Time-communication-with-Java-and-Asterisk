@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -22,23 +21,15 @@ import com.teamdev.jxcapture.audio.AudioSource;
 import com.teamdev.jxcapture.video.FullScreen;
 import com.teamdev.jxcapture.video.VideoFormat;
 import com.teamdev.jxcapture.video.VideoSource;
-									
-									/*******************************************************************
-									 *Klasa VideoRecording ka per detyre te regjistroj imazhe video    * 
-									 *nga kamera e integruar(ose e jashtme) dhe regjistrimin e ekranit *
-									 * ne modin fullscreen.Kjo klase eshte realizuar duke shfrytezuar  *
-									 * librarite e gatshme: jniwrap-3.12.jar, jxcapture-samples.jar,   *
-									 * jxcapturedemo.jar.                                              *  
-									 *******************************************************************/
 
 public class VideoRecording {
 	private static int mode;								 //0 Per fullScreen; 1 vetem per regjistrimin e imazheve nga video e integruar ose e jashtme.
-	private static  EncodingParameters encodingParameters;   //Parametrat Encodues te sinjalit te zerit dhe videos.
+	private static  EncodingParameters encodingParameters;   
 	private static VideoCapture objVideoCapture;			
 	private static WebCameraView objShowCamera;				
-	private static int cameraChoosen;						 //Kamera e zgjedhur.
+	private static int cameraChoosen;						
 	
-	public void setMode(int mode,int cameraChoosen) {		//Metoda per percaktimin e modit te regjistrimit dhe kameres.	
+	public void setMode(int mode,int cameraChoosen) {			
 		this.mode = mode;
 		this.cameraChoosen = cameraChoosen;
 	}
@@ -47,15 +38,15 @@ public class VideoRecording {
 		try {
 		if(mode==0) {
 			objVideoCapture = VideoCapture.create();     						//Per modin  fullscreen video.
-			objVideoCapture.setVideoSource(new FullScreen());						//Burimi i videos ne kete rast eshte vet ekrani.
+			objVideoCapture.setVideoSource(new FullScreen());						
 			List<VideoSource> availableVideoSources = VideoSource.getAvailable();		
 			if (availableVideoSources.isEmpty()) {
 				throw new IllegalStateException("No external video sources available");
 	        }
 			ImageCapture webCameraImageCapture = ImageCapture.create();
-			List<Codec> videoCodecs = objVideoCapture.getVideoCodecs();					//Koderet e videos.
+			List<Codec> videoCodecs = objVideoCapture.getVideoCodecs();					
 			Codec videoCodec = videoCodecs.get(2);
-		    JFileChooser objFileChooser = new JFileChooser();							//Per percaktimin e vendit ku do te ruhet fajlli.
+		    JFileChooser objFileChooser = new JFileChooser();							
 		    objFileChooser.setDialogTitle("Zgjedhni lokacioni ku deshironi te ruani fajllin");
 		    objFileChooser.showSaveDialog(null);
 		    File path = objFileChooser.getSelectedFile();
@@ -64,7 +55,7 @@ public class VideoRecording {
 		    encodingParameters.setFramerate(10);
 		    encodingParameters.setCodec(videoCodec);
 		    
-		     List<AudioSource> audioSources = AudioSource.getAvailable();				//Per regjistrimin e sinjalit te zerit.
+		     List<AudioSource> audioSources = AudioSource.getAvailable();				
 		    for (AudioSource audioSource : audioSources) {
 		       }
 		    if (audioSources.isEmpty()) {
@@ -86,20 +77,19 @@ public class VideoRecording {
 	        }
 	    }
 	    
-	    // Trego ekrani ne anen e majte ne pjesen e siperme.
 	    objShowCamera = new WebCameraView(webCameraImageCapture);
 	    objShowCamera.show();
 	    objVideoCapture.start(encodingParameters);
 		}
 		
-		else {  //Per rastin kur perdoruesi deshiron te regjistroj video nga kamera.
-			 objVideoCapture = VideoCapture.create(VideoFormat.WMV);   //Per kamere ruaj formatin e videos .wmv. Video mund te ruhet edhe ne formate tjera.
+		else {  
+			 objVideoCapture = VideoCapture.create(VideoFormat.WMV);   
 			   List<VideoSource> availableVideoSources = VideoSource.getAvailable();
 		        if (availableVideoSources.isEmpty()) {
-		            JOptionPane.showMessageDialog(null, "Nuk eshte e kyqur asnje kamerë në këtë pajisje.");
+		            JOptionPane.showMessageDialog(null, "Nuk eshte e kyqur asnje kamerÃ« nÃ« kÃ«tÃ« pajisje.");
 		        }
 		        else {
-		        VideoSource webCamera = availableVideoSources.get(cameraChoosen); //Parametri cameraChoosen jepet nga perdoruesi ne frmVoIP.
+		        VideoSource webCamera = availableVideoSources.get(cameraChoosen); 
 		        objVideoCapture.setVideoSource(webCamera);
 
 		        java.util.List<Codec> videoCodecs = objVideoCapture.getVideoCodecs();
@@ -155,23 +145,23 @@ public class VideoRecording {
 		}
 	}
 
-	//Metoda ndaljen dhe ruajtjes e regjistrimit si dhe largimin e dritares nga ekrani.
+	
 	public static void stopRecording() {
 		objVideoCapture.stop();
 	    objShowCamera.hide();
 	}
 	
-	//Klasa per paraqitjen e dritares ne ekran, qe tregon se ka filluar regjistrimi.
+	
 	   private static class WebCameraView {
-	        private static final Dimension fullScreenDimension = new Dimension(64, 48);   //Dimensionet e dritares ne modin fullscreen
-	        private static final Dimension videoScreenDimension = new Dimension(400,320); //Dimensionet e dritares ne modin kamera.
-	        private static final Point locationOfFullScreen = new Point(0, 0);			  //Lokacioni i dritares ne fullscreen.
-	        private static final Point locationOfVideoScreen = new Point(100,100);		  //Lokacioni i dritares ne kamere.
-	        private static final int updateInterval = 100;								  //Intervali i perditesimit te dritares me imazhe.
+	        private static final Dimension fullScreenDimension = new Dimension(64, 48);   
+	        private static final Dimension videoScreenDimension = new Dimension(400,320); 
+	        private static final Point locationOfFullScreen = new Point(0, 0);			  
+	        private static final Point locationOfVideoScreen = new Point(100,100);		  
+	        private static final int updateInterval = 100;								 
 
 	        private JWindow webCameraView;												 
 	        private BufferedImage snapshot;
-	        private Timer updateTimer;													  //Timeri eshte perdorur per te caktuar kohen e perditesimit te dritares me imazhe te reja.
+	        private Timer updateTimer;													  
 
 	        public WebCameraView(final ImageCapture webCameraCapture) {
 	            webCameraView = new JWindow() {
@@ -198,7 +188,6 @@ public class VideoRecording {
 	                }
 	            });
 	        }
-//Metoda per paraqitjen e dritares me imazhe.
 	        public void show() {
 	        	if(mode==0) {
 		        	webCameraView.setLocation(locationOfFullScreen);
@@ -213,7 +202,6 @@ public class VideoRecording {
 	            webCameraView.setVisible(true);
 	            updateTimer.start();
 	        }
-//Metoda per largimin e dritares.
 	        public void hide() {
 	            updateTimer.stop();
 	            webCameraView.dispose();
