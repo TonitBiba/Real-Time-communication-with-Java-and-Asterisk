@@ -12,21 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
-										/**************************************************************
-										 * Klasa per pranimin dhe dergimin e fajllave permes soketave.*
-										 * Ne rastin tone server soketa pranon fajlla, kurse klient   *
-										 * soketa dergon fajlla. Ne kete rast i bie qe server soketa  *
-										 * eshte qdo here ne pritje per hapjen e soketes me klient,   *
-										 * kurse klient soketa hapet vetem ne ate rast kur klienti    *
-										 * deshiron te dergoj fajlla. 								  *
-										 **************************************************************/
-
-									   /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-										 ! Ky program garanton dergimin e fajllave deri në 1 Giga Byte,  !
-										 ! nën kushte specifike të përcaktuara nga zhvilluesi i programit!
-										 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-
-
+										
 public class SendReceiveFiles {
 	
 	public void sendFiles(Socket objSocket,String ipAddressServer,int port) throws UnknownHostException, IOException {
@@ -45,7 +31,6 @@ public class SendReceiveFiles {
 		objSocket.close(); 
 	}
 	
-//Funksioni per pranimin e fajllave(Serveri).
 	public void receiveFiles(Socket objSocket, JProgressBar objProgressBar) throws IOException {
 		objProgressBar.setValue(0);		
 		int progressBarValues=0;
@@ -56,7 +41,7 @@ public class SendReceiveFiles {
 		progressBarValues=2;
 		objProgressBar.setValue(progressBarValues);
 		InputStream objInputStream = objSocket.getInputStream();
-		int yesOrNo = JOptionPane.showConfirmDialog(null, "A deshironi të pranoni video fajllin nga perdoruesi :"+objSocket+"?","Konfirmo",JOptionPane.YES_NO_OPTION);
+		int yesOrNo = JOptionPane.showConfirmDialog(null, "A deshironi tÃ« pranoni video fajllin nga perdoruesi :"+objSocket+"?","Konfirmo",JOptionPane.YES_NO_OPTION);
 		if(yesOrNo == 0) {
 			JFileChooser objFileChooser = new JFileChooser();
 			objFileChooser.showSaveDialog(null);
